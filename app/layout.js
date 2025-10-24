@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import "./globals.css";
 import Loading from "./loading";
 import Head from "next/head";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -28,7 +29,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <Suspense fallback={<Loading />}>
       <body className="relative md:overflow-x-hidden font-rubik">
-        {children}
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
       </body>
       </Suspense>
     </html>

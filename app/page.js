@@ -54,13 +54,18 @@ export default function Home() {
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/aarti-pooja">
+                  <button className="bg-gradient-to-r from-[#C97A3C] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#C97A3C] text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
+                    Book Aarti & Pooja
+                  </button>
+                </Link>
                 <Link href="/howtoreachus">
-                  <button className="bg-[#C97A3C] hover:bg-[#B5682B] text-white px-8 py-4 rounded font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
+                  <button className="border-2 border-[#C97A3C] text-[#C97A3C] hover:bg-[#C97A3C] hover:text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300">
                     Plan Your Visit
                   </button>
                 </Link>
                 <Link href="/about">
-                  <button className="border-2 border-spiritual-green text-spiritual-green hover:bg-spiritual-green hover:text-white px-8 py-4 rounded font-semibold transition-all duration-300">
+                  <button className="border-2 border-spiritual-green text-spiritual-green hover:bg-spiritual-green hover:text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300">
                     Learn More
                   </button>
                 </Link>

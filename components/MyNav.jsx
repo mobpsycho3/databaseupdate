@@ -14,12 +14,18 @@ import { HeartIcon, UserIcon, LogOutIcon, LogInIcon, VideoIcon } from "lucide-re
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { isAuthenticated, getSession, clearSession } from "@/lib/auth";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { getTranslation } from "@/lib/translations";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 
 export default function MyNav() {
   const router = useRouter();
+  const { language } = useLanguage();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
+
+  const t = (key) => getTranslation(language, key);
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -35,35 +41,35 @@ export default function MyNav() {
 
   const navItems = [
     {
-      name: "Home",
+      name: t('nav.home'),
       link: "/",
     },
     {
-      name: "About",
+      name: t('nav.about'),
       link: "/about",
     },
     {
-      name: "Visit",
+      name: t('nav.visit'),
       link: "/howtoreachus",
     },
     {
-      name: "Events",
+      name: t('nav.events'),
       link: "/events",
     },
     {
-      name: "Gallery",
+      name: t('nav.gallery'),
       link: "/media"
     },
     {
-      name: "Aarti & Pooja",
+      name: t('nav.aarti'),
       link: "/aarti-pooja"
     },
     {
-      name:"Shop",
+      name: t('nav.shop'),
       link:"/shop"
     },
     {
-      name: "Contact",
+      name: t('nav.contact'),
       link: "/contact",
     }
   ];
@@ -76,29 +82,32 @@ export default function MyNav() {
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-3">
-            <NavbarButton className="flex items-center justify-center" variant="primary">
+            {/* Language Switcher */}
+            <LanguageSwitcher />
+            
+            <NavbarButton className="flex items-center justify-center bg-sandalwood hover:bg-deep-brown text-ivory border-sandalwood" variant="primary">
               <HeartIcon size={16} fill="currentColor" className="mr-2" />
-              Donate
+              {t('nav.donate')}
             </NavbarButton>
             {user ? (
               <>
                 <NavbarButton 
                   onClick={() => router.push('/my-aartis')}
-                  className="flex items-center justify-center" 
+                  className="flex items-center justify-center border-sandalwood/30 text-deep-brown hover:bg-sandalwood/5" 
                   variant="outline"
                 >
                   <VideoIcon size={16} className="mr-2" />
-                  My Aartis
+                  {t('nav.myAartis')}
                 </NavbarButton>
                 <div className="flex items-center gap-2">
-                  <div className="hidden lg:flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg border border-[#C97A3C]/20">
-                    <UserIcon size={16} className="text-[#C97A3C]" />
-                    <span className="text-sm font-semibold text-[#3D2817]">{user.name}</span>
+                  <div className="hidden lg:flex items-center gap-2 px-3 py-2 bg-sandalwood/5 rounded-sm border border-sandalwood/15">
+                    <UserIcon size={16} className="text-sandalwood" />
+                    <span className="text-sm font-light text-deep-brown">{user.name}</span>
                   </div>
                   <button
                     onClick={handleLogout}
-                    className="p-2 hover:bg-red-50 rounded-lg transition-colors text-red-600"
-                    title="Logout"
+                    className="p-2 hover:bg-red-50 rounded-sm transition-colors text-red-600"
+                    title={t('nav.logout')}
                   >
                     <LogOutIcon size={18} />
                   </button>
@@ -107,11 +116,11 @@ export default function MyNav() {
             ) : (
               <NavbarButton 
                 onClick={() => router.push('/auth/login')}
-                className="flex items-center justify-center" 
+                className="flex items-center justify-center border-sandalwood/30 text-deep-brown hover:bg-sandalwood/5" 
                 variant="outline"
               >
                 <LogInIcon size={16} className="mr-2" />
-                Login
+                {t('nav.login')}
               </NavbarButton>
             )}
           </div>
@@ -132,23 +141,28 @@ export default function MyNav() {
                 key={`mobile-link-${idx}`}
                 href={item.link}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="relative text-spiritual-green hover:text-spiritual-gold transition-colors">
+                className="relative text-deep-brown hover:text-sandalwood transition-colors font-light">
                 <span className="block">{item.name}</span>
               </a>
             ))}
             <div className="flex w-full flex-col gap-4 mt-4">
+              {/* Language Switcher in Mobile */}
+              <div className="flex justify-center">
+                <LanguageSwitcher />
+              </div>
+              
               <NavbarButton
                 onClick={() => setIsMobileMenuOpen(false)}
                 variant="primary"
-                className="w-full">
+                className="w-full bg-sandalwood hover:bg-deep-brown text-ivory">
                 <HeartIcon size={16} fill="currentColor" className="mr-2 inline" />
-                Donate
+                {t('nav.donate')}
               </NavbarButton>
               {user ? (
                 <>
-                  <div className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg border border-[#C97A3C]/20">
-                    <UserIcon size={16} className="text-[#C97A3C]" />
-                    <span className="text-sm font-semibold text-[#3D2817]">{user.name}</span>
+                  <div className="flex items-center gap-2 px-4 py-3 bg-sandalwood/5 rounded-sm border border-sandalwood/15">
+                    <UserIcon size={16} className="text-sandalwood" />
+                    <span className="text-sm font-light text-deep-brown">{user.name}</span>
                   </div>
                   <NavbarButton
                     onClick={() => {
@@ -156,18 +170,18 @@ export default function MyNav() {
                       router.push('/my-aartis');
                     }}
                     variant="outline"
-                    className="w-full">
+                    className="w-full border-sandalwood/30 text-deep-brown hover:bg-sandalwood/5">
                     <VideoIcon size={16} className="mr-2 inline" />
-                    My Aartis
+                    {t('nav.myAartis')}
                   </NavbarButton>
                   <button
                     onClick={() => {
                       setIsMobileMenuOpen(false);
                       handleLogout();
                     }}
-                    className="w-full px-4 py-2 bg-red-50 text-red-600 rounded-lg font-semibold hover:bg-red-100 transition-colors flex items-center justify-center">
+                    className="w-full px-4 py-2 bg-red-50 text-red-600 rounded-sm font-light hover:bg-red-100 transition-colors flex items-center justify-center">
                     <LogOutIcon size={16} className="mr-2" />
-                    Logout
+                    {t('nav.logout')}
                   </button>
                 </>
               ) : (
@@ -177,9 +191,9 @@ export default function MyNav() {
                     router.push('/auth/login');
                   }}
                   variant="outline"
-                  className="w-full">
+                  className="w-full border-sandalwood/30 text-deep-brown hover:bg-sandalwood/5">
                   <LogInIcon size={16} className="mr-2 inline" />
-                  Login
+                  {t('nav.login')}
                 </NavbarButton>
               )}
             </div>

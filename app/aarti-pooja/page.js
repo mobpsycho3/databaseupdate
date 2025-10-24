@@ -5,14 +5,20 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { isAuthenticated, getSession } from '@/lib/auth';
 import { AARTI_SERVICES, CATEGORIES, savePurchase } from '@/lib/aarti-data';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { getTranslation } from '@/lib/translations';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 export default function AartiPoojaPage() {
   const router = useRouter();
+  const { language } = useLanguage();
   const [user, setUser] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('All Services');
   const [selectedService, setSelectedService] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+
+  const t = (key) => getTranslation(language, key);
 
   useEffect(() => {
     // Check authentication

@@ -4,24 +4,31 @@ import Footer from "@/components/Footer";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { getTranslation } from "@/lib/translations";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default function Home() {
+  const { language } = useLanguage();
+  const t = (key) => getTranslation(language, key);
+
   return (
-    <div className="bg-[#FAF8F5]">
+    <div className="bg-heritage-cream">
       <MyNav />
       
-      {/* Hero Section - Split Design Inspired by Reference */}
-      <section className="relative min-h-[600px] md:min-h-[700px] overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="temple-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-                <text x="50" y="50" fontSize="40" fill="#2D5F4C" textAnchor="middle" fontFamily="serif">ॐ</text>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#temple-pattern)" />
-          </svg>
+      {/* Hero Section - Heritage Design */}
+      <section className="relative min-h-[600px] md:min-h-[700px] overflow-hidden bg-ivory">
+        {/* Subtle Heritage Pattern */}
+        <div className="absolute inset-0 opacity-[0.015]">
+          <div className="w-full h-full" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='40' y='45' text-anchor='middle' font-size='28' fill='%238B4513'%3Eॐ%3C/text%3E%3C/svg%3E")`,
+            backgroundSize: '80px 80px'
+          }}></div>
+        </div>
+
+        {/* Language Switcher - Fixed Position */}
+        <div className="absolute top-6 right-6 z-20">
+          <LanguageSwitcher />
         </div>
 
         <div className="relative grid md:grid-cols-2 min-h-[600px] md:min-h-[700px]">
@@ -30,43 +37,41 @@ export default function Home() {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="flex flex-col justify-center px-6 md:px-12 lg:px-20 py-20 bg-white/80"
+            className="flex flex-col justify-center px-6 md:px-12 lg:px-20 py-20 bg-heritage-cream/90"
           >
-            <div className="max-w-xl">
+            <div className="max-w-xl space-y-6">
               <motion.span
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
-                className="text-spiritual-gold text-sm font-semibold tracking-wider uppercase mb-4 block"
+                className="text-sandalwood text-xs font-light tracking-[0.3em] uppercase block"
+                style={{ fontFamily: language === 'hi' ? 'Noto Serif Devanagari, serif' : 'Cormorant Garamond, serif' }}
               >
-                Divine Abode of Prosperity
+                {t('home.subtitle')}
               </motion.span>
               
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 text-[#5A3825] leading-tight">
-                KuberJi<br />
-                <span className="text-spiritual-gold">Mandir</span>
+              <h1 className="text-5xl md:text-7xl font-light text-deep-brown leading-tight tracking-wide" style={{ fontFamily: language === 'hi' ? 'Noto Serif Devanagari, serif' : 'Cormorant Garamond, serif' }}>
+                {t('home.title')}
               </h1>
               
-              <p className="text-gray-700 text-lg mb-8 leading-relaxed">
-                Experience the divine presence of Lord Kuber, the celestial treasurer. 
-                This sacred temple in Pandukeshwar welcomes devotees seeking blessings 
-                of wealth and spiritual prosperity.
+              <p className="text-incense text-base md:text-lg leading-relaxed font-light">
+                {t('home.description')}
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 pt-4">
                 <Link href="/aarti-pooja">
-                  <button className="bg-gradient-to-r from-[#C97A3C] to-[#D4AF37] hover:from-[#D4AF37] hover:to-[#C97A3C] text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
-                    Book Aarti & Pooja
+                  <button className="bg-sandalwood text-ivory px-8 py-3 rounded-sm font-light transition-all duration-300 hover:bg-deep-brown border border-sandalwood shadow-sm" style={{ fontFamily: language === 'hi' ? 'Noto Serif Devanagari, serif' : 'Cormorant Garamond, serif' }}>
+                    {t('home.bookAarti')}
                   </button>
                 </Link>
                 <Link href="/howtoreachus">
-                  <button className="border-2 border-[#C97A3C] text-[#C97A3C] hover:bg-[#C97A3C] hover:text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300">
-                    Plan Your Visit
+                  <button className="border border-sandalwood/30 text-deep-brown hover:bg-sandalwood/5 px-8 py-3 rounded-sm font-light transition-all duration-300" style={{ fontFamily: language === 'hi' ? 'Noto Serif Devanagari, serif' : 'inherit' }}>
+                    {t('home.planVisit')}
                   </button>
                 </Link>
                 <Link href="/about">
-                  <button className="border-2 border-spiritual-green text-spiritual-green hover:bg-spiritual-green hover:text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300">
-                    Learn More
+                  <button className="border border-sandalwood/30 text-deep-brown hover:bg-sandalwood/5 px-8 py-3 rounded-sm font-light transition-all duration-300" style={{ fontFamily: language === 'hi' ? 'Noto Serif Devanagari, serif' : 'inherit' }}>
+                    {t('home.learnMore')}
                   </button>
                 </Link>
               </div>
@@ -75,7 +80,7 @@ export default function Home() {
 
           {/* Right: Image */}
           <motion.div
-            initial={{ opacity: 0, scale: 1.1 }}
+            initial={{ opacity: 0, scale: 1.05 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1 }}
             className="relative min-h-[400px] md:min-h-full"
@@ -87,31 +92,20 @@ export default function Home() {
               className="object-cover"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-white/20" />
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-heritage-cream/10" />
           </motion.div>
         </div>
       </section>
 
-      {/* Stats Section with Decorative Background */}
-      <section className="py-16 bg-[#C97A3C] text-white relative overflow-hidden">
-        {/* Decorative Pattern Overlay */}
-        <div className="absolute inset-0 opacity-10">
-          <Image
-            src="/images/kalas-high.jpg"
-            alt="Pattern"
-            fill
-            className="object-cover"
-            loading="lazy"
-          />
-        </div>
-        
-        <div className="relative max-w-6xl mx-auto px-4">
+      {/* Stats Section - Heritage Minimal */}
+      <section className="py-20 bg-sandalwood/5 border-y border-sandalwood/10">
+        <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { number: "1000+", label: "Years of Heritage" },
-              { number: "365", label: "Days of Prayer" },
-              { number: "50+", label: "Annual Events" },
-              { number: "∞", label: "Blessings" },
+              { number: "1000+", label: language === 'hi' ? "वर्षों की विरासत" : "Years of Heritage" },
+              { number: "365", label: language === 'hi' ? "दिनों की प्रार्थना" : "Days of Prayer" },
+              { number: "50+", label: language === 'hi' ? "वार्षिक कार्यक्रम" : "Annual Events" },
+              { number: "ॐ", label: language === 'hi' ? "आशीर्वाद" : "Blessings" },
             ].map((stat, idx) => (
               <motion.div
                 key={idx}
@@ -119,9 +113,14 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
                 viewport={{ once: true }}
+                className="space-y-2"
               >
-                <div className="text-4xl md:text-5xl font-bold mb-2">{stat.number}</div>
-                <div className="text-sm md:text-base opacity-90">{stat.label}</div>
+                <div className="text-4xl md:text-5xl font-light text-sandalwood" style={{ fontFamily: language === 'hi' ? 'Noto Serif Devanagari, serif' : 'Cormorant Garamond, serif' }}>
+                  {stat.number}
+                </div>
+                <div className="text-sm md:text-base text-incense font-light" style={{ fontFamily: language === 'hi' ? 'Noto Serif Devanagari, serif' : 'inherit' }}>
+                  {stat.label}
+                </div>
               </motion.div>
             ))}
           </div>

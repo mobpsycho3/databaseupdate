@@ -59,6 +59,7 @@ model Service {
   // Relations
   bookings      Booking[]
   
+  @@unique([nameEn, nameHi])
   @@map("services")
 }
 
